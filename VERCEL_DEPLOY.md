@@ -74,7 +74,22 @@ Esto añade:
 - Constraints únicos (no overbooking, slugs únicos)
 - Tabla `rate_limits` para serverless
 
-## Paso 6: Verificar Funcionamiento
+## Paso 6: Configurar recordatorios automáticos sin Vercel Pro
+
+Vercel puede pedir plan Pro para usar cron jobs. Para mantener el despliegue gratis, usa un servicio externo:
+
+1. Ve a https://cron-job.org
+2. Crea una cuenta gratuita
+3. Añade un cron job nuevo
+4. URL: `https://TU-DOMINIO-DE-VERCEL/api/bookings/reminders`
+5. Método: `POST`
+6. Schedule: diario a las 09:00
+7. Header opcional:
+   `Authorization: Bearer TU_CRON_SECRET`
+
+El valor `TU_CRON_SECRET` debe coincidir con la variable `CRON_SECRET` configurada en Vercel.
+
+## Paso 7: Verificar Funcionamiento
 
 Prueba estas funcionalidades en tu dominio de Vercel:
 
@@ -84,7 +99,7 @@ Prueba estas funcionalidades en tu dominio de Vercel:
 4. ✅ Crear negocio (onboarding)
 5. ✅ Reservar cita
 6. ✅ Emails (bienvenida, confirmación)
-7. ✅ Recordatorios automáticos (cron job)
+7. ✅ Recordatorios automáticos (cron-job.org)
 
 ## Comandos útiles
 
