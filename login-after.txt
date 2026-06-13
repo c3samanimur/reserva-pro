@@ -1,0 +1,30 @@
+uid=6_0 RootWebArea "ReservaPro — Reserva en peluquerías y barberías" url="http://localhost:3000/dashboard/staff"
+  uid=6_1 banner
+    uid=6_2 link "ReservaPro" url="http://localhost:3000/"
+      uid=6_3 StaticText "ReservaPro"
+    uid=6_4 navigation
+      uid=6_5 link "Negocios" url="http://localhost:3000/negocios"
+        uid=6_6 StaticText "Negocios"
+    uid=6_7 link "Iniciar sesión" url="http://localhost:3000/login"
+      uid=6_8 button "Iniciar sesión"
+    uid=6_9 link "Registrarse" url="http://localhost:3000/registro"
+      uid=6_10 button "Registrarse"
+  uid=6_11 complementary
+    uid=6_12 navigation
+      uid=6_13 link "Resumen" url="http://localhost:3000/dashboard"
+        uid=6_14 StaticText "Resumen"
+      uid=6_15 link "Mi negocio" url="http://localhost:3000/dashboard/perfil"
+        uid=6_16 StaticText "Mi negocio"
+      uid=6_17 link "Servicios" url="http://localhost:3000/dashboard/servicios"
+        uid=6_18 StaticText "Servicios"
+      uid=6_19 link "Empleados" url="http://localhost:3000/dashboard/staff"
+        uid=6_20 StaticText "Empleados"
+      uid=6_21 link "Horarios" url="http://localhost:3000/dashboard/horarios"
+        uid=6_22 StaticText "Horarios"
+      uid=6_23 link "Reservas" url="http://localhost:3000/dashboard/reservas"
+        uid=6_24 StaticText "Reservas"
+      uid=6_25 link "Suscripción" url="http://localhost:3000/dashboard/suscripcion"
+        uid=6_26 StaticText "Suscripción"
+  uid=6_27 main
+  uid=6_28 button "Open Next.js Dev Tools" expandable haspopup="menu"
+  uid=6_29 alert atomic live="assertive" relevant="additions text"
