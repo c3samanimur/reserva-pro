@@ -1,17 +1,20 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
 import { rateLimit } from '@/lib/rate-limit'
 
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  {
+function getSupabaseAdmin() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+  if (!url || !key) {
+    throw new Error('Supabase admin credentials not configured')
+  }
+  return createSupabaseClient(url, key, {
     auth: {
       autoRefreshToken: false,
       persistSession: false,
     },
-  }
-)
+  })
+}
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
 
@@ -43,6 +46,8 @@ export async function POST(req: NextRequest) {
     if (!['client', 'business'].includes(role)) {
       return NextResponse.json({ error: 'Rol no válido' }, { status: 400 })
     }
+
+    const supabaseAdmin = getSupabaseAdmin()
 
     // Create user directly with email confirmed, bypassing Supabase Auth confirmation flow
     const { data: userData, error: createError } = await supabaseAdmin.auth.admin.createUser({
