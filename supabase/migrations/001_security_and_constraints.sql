@@ -14,10 +14,16 @@ CREATE TABLE IF NOT EXISTS public.rate_limits (
 ALTER TABLE public.businesses
   ADD CONSTRAINT businesses_slug_unique UNIQUE (slug);
 
--- 3. Prevent overbooking: same business/staff/time slot cannot be double-booked
--- Note: staff_id can be NULL (no preference), so we include it in the unique constraint
-ALTER TABLE public.bookings
-  ADD CONSTRAINT bookings_no_double_booking UNIQUE (business_id, staff_id, date, start_time);
+-- 3. Prevent active overbooking: same business/staff/time slot cannot be double-booked
+-- COALESCE makes NULL staff_id count as one shared slot.
+CREATE UNIQUE INDEX IF NOT EXISTS bookings_no_double_booking
+  ON public.bookings (
+    business_id,
+    COALESCE(staff_id, '00000000-0000-0000-0000-000000000000'::uuid),
+    date,
+    start_time
+  )
+  WHERE status IN ('pending', 'confirmed');
 
 -- 4. Enable RLS on all tables
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
