@@ -1,8 +1,14 @@
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 export const FROM_EMAIL = process.env.FROM_EMAIL ?? 'noreply@reservapro.com'
+
+function getResendClient() {
+  const apiKey = process.env.RESEND_API_KEY
+  if (!apiKey || apiKey === 'your_resend_api_key') {
+    return null
+  }
+  return new Resend(apiKey)
+}
 
 export async function sendEmail({
   to,
@@ -15,7 +21,8 @@ export async function sendEmail({
   html: string
   from?: string
 }) {
-  if (!process.env.RESEND_API_KEY || process.env.RESEND_API_KEY === 'your_resend_api_key') {
+  const resend = getResendClient()
+  if (!resend) {
     console.warn('[Email] RESEND_API_KEY not configured. Email not sent.')
     return { success: false, skipped: true }
   }
